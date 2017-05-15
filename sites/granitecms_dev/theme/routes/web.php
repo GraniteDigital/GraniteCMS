@@ -15,7 +15,6 @@
 //     return view('granitecms_dev.theme.views.home');
 // });
 
-Route::get('/', 'SiteController@index');
-Route::get('/cookie-policy', 'SiteController@cookiePolicy')->name('cookie-policy');
-
-Route::get('/{page}', 'SiteController@pages')->name('page');
+Route::get('/', function () {
+    return view('granitecms_dev.theme.views.home');
+});

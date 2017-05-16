@@ -2,7 +2,6 @@
 
 namespace Sites\granitecms_dev\theme;
 
-use App\Scopes\SiteScope;
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
@@ -16,13 +15,6 @@ class Tag extends Model
 
     protected $hidden = [];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new SiteScope);
-    }
-
     public function scopeGetFromTags($query, $tags)
     {
         if (!is_array($tags)) {
@@ -34,10 +26,5 @@ class Tag extends Model
         }
 
         return $query;
-    }
-
-    public function site()
-    {
-        return $this->belongsTo('App\Site', 'site');
     }
 }

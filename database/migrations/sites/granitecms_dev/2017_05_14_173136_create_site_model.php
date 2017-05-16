@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSiteModel extends Migration
 {
@@ -15,12 +15,11 @@ class CreateSiteModel extends Migration
     {
         Schema::create('granitecms_dev_sites', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('tags_id');
             $table->string('name');
-            $table->string('developers');
-            $table->string('project_managers');
-            $table->string('image');
-            $table->string('url');
+            $table->string('developers')->nullable();
+            $table->string('project_managers')->nullable();
+            $table->string('image')->nullable();
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

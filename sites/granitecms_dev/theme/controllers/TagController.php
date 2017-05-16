@@ -13,6 +13,10 @@ class TagController extends Controller
     public function __construct()
     {
         $this->stemmer = new English();
+
+        $hook = config('hooks');
+        $hook->addHook('after_CRUD_POST_processing', 10, [$this, 'processTagInput']);
+        $hook->addHook('during_CRUD_field_display', 10, [$this, 'renderTagInput']);
     }
 
     public function index()
@@ -33,25 +37,53 @@ class TagController extends Controller
         return apiResponse(NO_CONTENT);
     }
 
+    public function processTagInput($request, $fields, $set_values, $id)
+    {
+        foreach ($fields as $field) {
+            if ($field['type'] == 'custom_taginput') {
+                $tags = $request[$field['name']];
+                $this->batchStore($tags, $id);
+            }
+        }
+    }
+
+    public function renderTagInput($field, $value)
+    {
+        $siteID = request()->route('id');
+
+        $tags = Tag::where('postings', 'LIKE', '%"' . $siteID . '"%')
+            ->orWhere('postings', 'LIKE', '%"' . $siteID . '"' . ',%')
+            ->orWhere('postings', 'LIKE', '%,' . '"' . $siteID . '"' . ',%')
+            ->orWhere('postings', 'LIKE', '%,' . '"' . $siteID . '"%')
+            ->pluck('tag');
+
+        $value = implode(',', $tags->toArray());
+
+        if ($field['type'] == 'custom_taginput') {
+            return view('components.text')->with(['field' => $field, 'value' => $value]);
+        }
+    }
+
     public function store($tag, $siteID)
     {
+        $tag = trim($tag);
         $tag = $this->stemmer->stem($tag);
 
-        $tag = Tag::where('tag', $tag)->first();
-        if ($tag != null) {
+        $tagObj = Tag::where('tag', $tag)->first();
+        if ($tagObj != null) {
             // Tag exists, update instead of create
-            $postings = json_decode($tag->postings);
+            $postings = json_decode($tagObj->postings);
 
             if (!in_array($siteID, $postings)) {
                 // Postings are a set, each ID must be unique
                 $postings[] = $siteID;
-                $tag->postings = json_encode($postings);
-                $tag->save();
+                $tagObj->postings = json_encode($postings);
+                $tagObj->save();
             }
         } else {
-            $tag = Tag::create(['tag' => $tag, 'postings' => [$siteID]]);
+            $tagObj = Tag::create(['tag' => $tag, 'postings' => json_encode([$siteID])]);
         }
-        return apiResponse(SUCCESS, $tag);
+        return apiResponse(SUCCESS, $tagObj);
     }
 
     public function batchStore($tags, $siteID)
@@ -62,7 +94,7 @@ class TagController extends Controller
         }
 
         foreach ($tags as $tag) {
-            yield $this->store($tag, $siteID);
+            $this->store($tag, $siteID);
         }
     }
 
@@ -86,7 +118,7 @@ class TagController extends Controller
     {
 
         if (!is_array($tags)) {
-            $tags = explode(',', $tags);
+            $tags = explode(' ', $tags);
         }
 
         $stemmed_tags = [];
@@ -107,7 +139,7 @@ class TagController extends Controller
         $postings_lists = [];
 
         foreach ($tags as $tag) {
-            $postings_lists = array_merge($postings_lists, $tag->postings);
+            $postings_lists = array_merge($postings_lists, json_decode($tag->postings));
         }
 
         $frequencies = array_count_values($postings_lists);

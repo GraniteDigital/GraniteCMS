@@ -1,0 +1,66 @@
+{
+	"table": "granitecms_dev_sites",
+	"key": "id",
+	"title": "Sites",
+
+	"options": {
+		"use_site_id": false
+	},
+
+	"shortlist": [
+		"name",
+		"developers",
+		"project_managers",
+		"url"
+	],
+
+	"where" : "",
+	"order_by" : "created_at DESC",
+
+	"fields": [
+		{
+			"name": "name",
+			"type": "text",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "url",
+			"type": "text",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "developers",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "project_managers",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "tags",
+			"type": "custom_tagInput",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "image",
+			"type": "image",
+			"custom_class": "",
+			"crop_width" : 1920,
+			"crop_height": 1080,
+			"store_folder": "site_previews"
+		},{
+			"name": "updated_at",
+			"title": "Last Updated",
+			"type": "date",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+			"validation": "required",
+			"read_only": true
+		}
+	],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}

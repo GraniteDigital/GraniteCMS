@@ -11,7 +11,6 @@ class Site extends Model
 
     protected $fillable = [
         'name',
-        'tags_id',
         'developers',
         'project_managers',
         'image',
@@ -27,11 +26,6 @@ class Site extends Model
         parent::boot();
 
         static::addGlobalScope(new SiteScope);
-    }
-
-    public function tags()
-    {
-        return $this->belongsTo('Sites\granitecms_dev\theme\Tag', 'tags_id');
     }
 
     public function site()

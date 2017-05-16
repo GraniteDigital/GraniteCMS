@@ -38,9 +38,10 @@
 			"class": "col-md-6 col-sm-6 col-xs-12"
 		},{
 			"name": "tags",
-			"type": "custom_tagInput",
-			"class": "col-md-6 col-sm-6 col-xs-12",
-			"validation": "required"
+			"type": "custom_taginput",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required",
+			"skip": true
 		},{
 			"name": "image",
 			"type": "image",

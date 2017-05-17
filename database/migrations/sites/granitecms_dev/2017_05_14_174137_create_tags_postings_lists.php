@@ -28,6 +28,6 @@ class CreateTagsPostingsLists extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('granitecms_dev_tags');
     }
 }

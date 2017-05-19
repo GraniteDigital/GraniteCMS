@@ -10,28 +10,53 @@ var app = new Vue({
     siteCounterBase: 0,
   },
   methods: {
-  	search: function(event){
-  		event.preventDefault();
-      this.currentSiteCounter = 0;
+    init: function(){
+      let self = this;
+      let hash = window.location.hash.substring(1);
+      self.performSearch(hash);
+    }, 
 
-  		if( this.searchInput !== "" ){
-	  		$.ajax({
-          url: "/api/search/"+this.searchInput,
-          method: "GET",
-          dataType: "json",
-          success: function(result){
-            this.sites = result.data;
-            this.renderSites( this.siteCounterBase, this.siteCounterBase + this.siteCounterStep );
-          }
-        });
+  	search: function(event){
+      let self = this;
+
+  		event.preventDefault();
+      self.currentSiteCounter = 0;
+
+  		if( self.searchInput !== "" ){
+	  		self.performSearch(self.searchInput);
+        history.pushState({}, null, "#"+self.searchInput);
   		}
   	},
 
-    renderSites: function( lower, upper ){
+    performSearch: function(input){
+      let self = this;
 
+      $.ajax({
+          url: "/api/search/" + input,
+          method: "GET",
+          dataType: "json",
+          success: function(result){
+            let incSites = [];
 
+            $.each(result.data, function(key, value){
+              incSites.push(key);
+            });
 
-      this.currentSiteCounter = this.currentSiteCounter + this.siteCounterStep;
+            let siteIDs = incSites.join();
+
+            $.ajax({
+              url: "/api/get_site_info/" + siteIDs,
+              method: "GET",
+              dataType: "json",
+              success: function(result){
+                self.sites = result.data;
+              }
+            });
+
+          }
+      });
     }
   }
 })
+
+app.init();

@@ -11,10 +11,6 @@
 |
  */
 
-// Route::get('/', function () {
-//     return view('granitecms_dev.theme.views.home');
-// });
-
 Route::get('/', function () {
     return view('granitecms_dev.theme.views.home');
 });

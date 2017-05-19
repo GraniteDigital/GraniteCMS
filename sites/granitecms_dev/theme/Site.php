@@ -16,7 +16,6 @@ class Site extends Model
         'image',
         'url',
         'site',
-        'created_at',
     ];
 
     protected $hidden = [];

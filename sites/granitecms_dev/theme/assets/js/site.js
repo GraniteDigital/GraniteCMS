@@ -10,12 +10,20 @@ var app = new Vue({
     siteCounterBase: 0,
   },
   methods: {
+
+    /**
+     * On page load, perform the following actions
+     */
     init: function(){
       let self = this;
       let hash = window.location.hash.substring(1);
       self.performSearch(hash);
     }, 
 
+    /**
+     * Event listener for searching based on text input
+     * @param  {Event} event 
+     */
   	search: function(event){
       let self = this;
 
@@ -28,6 +36,10 @@ var app = new Vue({
   		}
   	},
 
+    /**
+     * Send API requests to search tags and retrieve site info
+     * @param  {string} input User input string from text field
+     */
     performSearch: function(input){
       let self = this;
 
@@ -42,6 +54,7 @@ var app = new Vue({
               incSites.push(key);
             });
 
+            // Create comma-separated list of incoming site IDs
             let siteIDs = incSites.join();
 
             $.ajax({

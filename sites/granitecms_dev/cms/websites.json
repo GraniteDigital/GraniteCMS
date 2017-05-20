@@ -29,11 +29,28 @@
 			"class": "col-md-12 col-sm-12 col-xs-12",
 			"validation": "required"
 		},{
-			"name": "developers",
+			"name": "published_date",
+			"type": "date",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "backend_dev",
+			"type": "text",
+			"class": "col-md-4 col-sm-4 col-xs-12"
+		},{
+			"name": "frontend_dev",
+			"type": "text",
+			"class": "col-md-4 col-sm-4 col-xs-12"
+		},{
+			"name": "project_managers",
+			"type": "text",
+			"class": "col-md-4 col-sm-4 col-xs-12"
+		},{
+			"name": "addons",
 			"type": "text",
 			"class": "col-md-6 col-sm-6 col-xs-12"
 		},{
-			"name": "project_managers",
+			"name": "customised_addons",
 			"type": "text",
 			"class": "col-md-6 col-sm-6 col-xs-12"
 		},{

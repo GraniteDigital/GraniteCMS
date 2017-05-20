@@ -5,7 +5,7 @@
 	
 	<form class="form-wrapper cf">
 		<button type="submit" v-on:click="search">Search</button>
-	  	<input type="text" placeholder="Search here..." required v-model="searchInput">
+	  	<input type="text" placeholder="Search here..." required v-model="searchInput" v-on:click="search">
 	</form>
 
 	<div v-for="item in sites">
@@ -17,11 +17,12 @@
 			<a v-bind:href="[ item.url ]" target="_BLANK"><h2>@{{ item.name }}</h2></a>
 			<a v-bind:href="[ item.url ]" target="_BLANK">Link</a>
 			<p>
-				<strong>Developers: </strong> @{{ item.developers }}
-			</p>
-
-			<p>
+				<strong>Published: </strong> @{{ item.published_date }}
+				<strong>Backend Developers: </strong> @{{ item.backend_dev }}
+				<strong>Frontend Developers: </strong> @{{ item.frontend_dev }}
 				<strong>Project Managers: </strong> @{{ item.project_managers }}
+
+				<strong>Addons: </strong> @{{ item.addons }}
 			</p>
 		</div>
 	</div>

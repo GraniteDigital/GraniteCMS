@@ -4,6 +4,7 @@ namespace Sites\granitecms_dev\theme\controllers;
 
 use App\Http\Controllers\Controller;
 use Sites\granitecms_dev\theme\Query;
+use Sites\granitecms_dev\theme\Site;
 use Sites\granitecms_dev\theme\Tag;
 use Wamania\Snowball\English;
 
@@ -59,10 +60,56 @@ class TagController extends Controller
             foreach ($fields as $field) {
                 if ($field['type'] == 'custom_taginput') {
                     $tags = $request[$field['name']];
-                    $this->batchStore($tags, $id);
+                    $diff_tags = $this->diffTags($tags, $id);
+                    $this->storeFullTags($tags, $id);
+                    $this->batchStore($diff_tags, $id);
                 }
             }
         }
+    }
+
+    /**
+     * Store the full string of tags for each site (i.e. not the stemmed version)
+     * @param  string   $tags
+     * @param  int      $id
+     */
+    public function storeFullTags($tags, $id)
+    {
+        $tag = Site::find($id);
+        $tag->tags_full = $tags;
+        $tag->save();
+    }
+
+    /**
+     * Remove deleted tags and list new tags
+     * @param  string   $tags   Comma-separated string of tags
+     * @param  int      $id
+     * @return string           Comma-separated string of new tags
+     */
+    public function diffTags($tags, $id)
+    {
+        $tag = Site::find($id);
+        $new_tags = explode(',', $tags);
+        $old_tags = explode(',', $tag->tags_full);
+        $diff = array_diff($new_tags, $old_tags);
+
+        $return_array = [];
+        foreach ($diff as $item) {
+            // For every different item
+
+            if (in_array($item, $new_tags)) {
+                // If it's in new tags, it's a new tag
+                $return_array[] = $item;
+            }
+
+            if (in_array($item, $old_tags)) {
+                // If it's in old tags, it has been removed and we
+                // need to remove the site ID from the set
+                $this->removeTag($item, $id);
+            }
+        }
+
+        return implode(',', $return_array);
     }
 
     /**
@@ -76,16 +123,57 @@ class TagController extends Controller
         if (request()->page == 'websites') {
             $siteID = request()->route('id');
 
-            $tags = Tag::where('postings', 'LIKE', '%' . $siteID . '%')
-                ->orWhere('postings', 'LIKE', '%' . $siteID . ',%')
-                ->orWhere('postings', 'LIKE', '%,' . $siteID . ',%')
-                ->orWhere('postings', 'LIKE', '%,' . $siteID . '%')
-                ->pluck('tag');
+            // -----------------------------------------------------------
+            //  Commented code left in to demonstrate site search method
+            //  within the postings lists
+            // -----------------------------------------------------------
+            // $tags = Tag::where('postings', 'LIKE', '%' . $siteID . '%')
+            //     ->orWhere('postings', 'LIKE', '%' . $siteID . ',%')
+            //     ->orWhere('postings', 'LIKE', '%,' . $siteID . ',%')
+            //     ->orWhere('postings', 'LIKE', '%,' . $siteID . '%')
+            //     ->pluck('tag');
+            // $value = implode(',', $tags->toArray());
+            // -----------------------------------------------------------
 
-            $value = implode(',', $tags->toArray());
+            $site = Site::find($siteID);
+            $value = $site->tags_full;
 
             if ($field['type'] == 'custom_taginput') {
                 return view('components.text')->with(['field' => $field, 'value' => $value]);
+            }
+        }
+    }
+
+    /**
+     * Remove a site's ID from the tag postings set
+     * @param  string   $tag
+     * @param  int      $siteID
+     */
+    public function removeTag($tag, $siteID)
+    {
+        $tag = trim($tag);
+        // Split on space to handle multi-word tag submissions
+        $tags = explode(' ', $tag);
+
+        foreach ($tags as $tag) {
+            // Stem tag (i.e. get the word's base form)
+            $tag = $this->stemmer->stem($tag);
+
+            $tagObj = Tag::where('tag', $tag)->first();
+            if ($tagObj != null) {
+                // Tag exists, update instead of create
+                $postings = json_decode($tagObj->postings);
+
+                if (in_array($siteID, $postings)) {
+                    //////////////////////////////////////////
+                    // TODO: REMOVE SITE FROM POSTINGS LIST //
+                    //////////////////////////////////////////
+
+                    $tagObj->postings = json_encode($postings);
+                    $tagObj->save();
+                }
+            } else {
+                $tagObj = Tag::create(['tag' => $tag, 'postings' => json_encode([$siteID])]);
             }
         }
     }

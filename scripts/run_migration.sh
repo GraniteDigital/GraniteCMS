@@ -2,7 +2,6 @@
 #	Usage:
 #		./run_migration.sh SITE_SLUG
 #		./run_migration.sh SITE_SLUG :rollback
-#		./run_migration.sh SITE_SLUG :refresh
 #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #

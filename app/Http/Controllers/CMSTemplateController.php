@@ -173,7 +173,7 @@ class CMSTemplateController extends Controller
 
             if (!empty($items)) {
 
-                // If it's not empty, take add the first row of values
+                // If it's not empty, take the first row of values
                 $form->addValues($items[0]);
 
                 $view_path = $this->determineViewPath('edit', $page);
@@ -316,7 +316,8 @@ class CMSTemplateController extends Controller
     public function getOrderBy()
     {
         if (isset($this->data['order_by']) && !empty($this->data['order_by'])) {
-            return "ORDER BY {$this->data['order_by']}";
+            $order_by = $this->sanitize($this->data['order_by']);
+            return "ORDER BY {$order_by}";
         } else {
             return "";
         }

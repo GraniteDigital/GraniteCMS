@@ -8,10 +8,10 @@
 	  	<input type="text" placeholder="Search here..." required v-model="searchInput" v-on:click="search">
 	</form>
 
-	<div v-for="item in sites">
+	<div v-for="item in sites" class="website">
 
 		<div class="left-image">
-
+			<img v-bind:src="[ item.image ]" />
 		</div>
 		<div class="right-info">
 			<a v-bind:href="[ item.url ]" target="_BLANK"><h2>@{{ item.name }}</h2></a>

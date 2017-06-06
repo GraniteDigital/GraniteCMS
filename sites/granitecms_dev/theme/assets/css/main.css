@@ -157,13 +157,14 @@
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
     box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
     
+    color: #333;
     background: #ffe;
     transition: all 0.5s;
+    text-align: left;
 }
 
-.website .left-image{
-    width: 40%;
-    float: left;
+.website img{
+    max-width: 100%;
 }
 
 .website .right-info{
@@ -175,7 +176,7 @@
     text-align: left;
 }
 
-.website .right-info a h2{
+.website a h2{
     text-decoration: none;
     color: #333;
 }

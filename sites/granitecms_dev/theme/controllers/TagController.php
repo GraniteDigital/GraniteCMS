@@ -165,9 +165,9 @@ class TagController extends Controller
                 $postings = json_decode($tagObj->postings);
 
                 if (in_array($siteID, $postings)) {
-                    //////////////////////////////////////////
-                    // TODO: REMOVE SITE FROM POSTINGS LIST //
-                    //////////////////////////////////////////
+                    if(($key = array_search($siteID, $postings)) !== false) {
+                        unset($postings[$key]);
+                    }
 
                     $tagObj->postings = json_encode($postings);
                     $tagObj->save();

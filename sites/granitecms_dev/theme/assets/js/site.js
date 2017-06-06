@@ -75,6 +75,13 @@ var app = new Vue({
       });
     },
 
+    getS3Image: function(url){
+      var domain = url.replace('http://', "");
+      domain = url.replace('https://', "");
+      domain = domain.replace("/", "");
+      console.log(domain);
+      return "http://granite-eb-simplesitesearch.s3.amazonaws.com/site_images/"+ domain +".png";
+    }
   }
 })
 

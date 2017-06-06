@@ -9,22 +9,23 @@
 	</form>
 
 	<div v-for="item in sites" class="website">
-
-		<div class="left-image">
+		<template v-if="[item.image == '']">
+			<img v-bind:src="getS3Image(item.url)">
+		</template>
+		<template v-else>
 			<img v-bind:src="[ item.image ]" />
-		</div>
-		<div class="right-info">
-			<a v-bind:href="[ item.url ]" target="_BLANK"><h2>@{{ item.name }}</h2></a>
-			<a v-bind:href="[ item.url ]" target="_BLANK">Link</a>
-			<p>
-				<strong>Published: </strong> @{{ item.published_date }} <br />
-				<strong>Backend Developers: </strong> @{{ item.backend_dev }} <br />
-				<strong>Frontend Developers: </strong> @{{ item.frontend_dev }} <br />
-				<strong>Project Managers: </strong> @{{ item.project_managers }} <br />
+		</template>
 
-				<strong>Addons: </strong> @{{ item.addons }} <br />
-			</p>
-		</div>
+		<a v-bind:href="[ item.url ]" target="_BLANK"><h2>@{{ item.name }}</h2></a>
+		<a v-bind:href="[ item.url ]" target="_BLANK">Link</a>
+		<p>
+			<strong>Published: </strong> @{{ item.published_date }} <br />
+			<strong>Backend Developers: </strong> @{{ item.backend_dev }} <br />
+			<strong>Frontend Developers: </strong> @{{ item.frontend_dev }} <br />
+			<strong>Project Managers: </strong> @{{ item.project_managers }} <br />
+
+			<strong>Addons: </strong> @{{ item.addons }} <br />
+		</p>
 	</div>
 
 

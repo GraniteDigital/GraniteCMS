@@ -18,6 +18,7 @@ var app = new Vue({
       let self = this;
       let hash = window.location.hash.substring(1);
       self.performSearch(hash);
+      self.searchInput = hash;
     }, 
 
     /**
@@ -50,25 +51,30 @@ var app = new Vue({
           success: function(result){
             let incSites = [];
 
-            $.each(result.data, function(key, value){
-              incSites.push(key);
-            });
+            if( result.data.length == 0 ){
+              self.sites = [];
+            } else {
+              $.each(result.data, function(key, value){
+                incSites.push(key);
+              });
 
-            // Create comma-separated list of incoming site IDs
-            let siteIDs = incSites.join();
+              // Create comma-separated list of incoming site IDs
+              let siteIDs = incSites.join();
 
-            $.ajax({
-              url: "/api/get_site_info/" + siteIDs,
-              method: "GET",
-              dataType: "json",
-              success: function(result){
-                self.sites = result.data;
-              }
-            });
+              $.ajax({
+                url: "/api/get_site_info/" + siteIDs,
+                method: "GET",
+                dataType: "json",
+                success: function(result){
+                  self.sites = result.data;
+                }
+              });
+            }
 
           }
       });
-    }
+    },
+
   }
 })
 

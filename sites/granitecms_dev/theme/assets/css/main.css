@@ -148,8 +148,7 @@
 .website {
     max-width: 450px;
     padding: 15px;
-    margin: 150px auto 50px auto;
-    background: #444;
+    margin: 10px auto 20px auto;
     background: rgba(0,0,0,.2);
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -157,7 +156,8 @@
     -moz-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
     box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 1px 0 rgba(255,255,255,.2);
-
+    
+    background: #ffe;
     transition: all 0.5s;
 }
 

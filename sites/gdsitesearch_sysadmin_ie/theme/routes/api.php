@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use Sites\granitecms_dev\theme\controllers\TagController;
+use Sites\gdsitesearch_sysadmin_ie\theme\controllers\TagController;
 
 $tagController = new TagController();
 

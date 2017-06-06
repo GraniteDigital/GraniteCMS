@@ -1,9 +1,9 @@
 <?php
 
-namespace Sites\granitecms_dev\theme\controllers;
+namespace Sites\gdsitesearch_sysadmin_ie\theme\controllers;
 
 use App\Http\Controllers\Controller;
-use Sites\granitecms_dev\theme\Site;
+use Sites\gdsitesearch_sysadmin_ie\theme\Site;
 
 class SiteController extends Controller
 {

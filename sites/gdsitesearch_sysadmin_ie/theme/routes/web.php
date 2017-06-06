@@ -12,5 +12,5 @@
  */
 
 Route::get('/', function () {
-    return view('granitecms_dev.theme.views.home');
+    return view('gdsitesearch_sysadmin_ie.theme.views.home');
 });

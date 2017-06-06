@@ -1,21 +1,17 @@
 <?php
 
-namespace Sites\granitecms_dev\theme;
+namespace Sites\gdsitesearch_sysadmin_ie\theme;
 
 use App\Scopes\SiteScope;
 use Illuminate\Database\Eloquent\Model;
 
-class Site extends Model
+class Query extends Model
 {
-    protected $table = "granitecms_dev_sites";
+    protected $table = "gdsitesearch_sysadmin_ie_queries";
 
     protected $fillable = [
-        'name',
-        'developers',
-        'project_managers',
-        'image',
-        'url',
-        'site',
+        'query',
+        'results',
     ];
 
     protected $hidden = [];

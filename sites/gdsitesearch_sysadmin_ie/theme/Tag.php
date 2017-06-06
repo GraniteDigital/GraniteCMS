@@ -1,12 +1,12 @@
 <?php
 
-namespace Sites\granitecms_dev\theme;
+namespace Sites\gdsitesearch_sysadmin_ie\theme;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    protected $table = "granitecms_dev_tags";
+    protected $table = "gdsitesearch_sysadmin_ie_tags";
 
     protected $fillable = [
         'tag',

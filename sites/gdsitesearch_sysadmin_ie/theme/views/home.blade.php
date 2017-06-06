@@ -1,4 +1,4 @@
-@extends('granitecms_dev.theme.views.layouts.default')
+@extends('gdsitesearch_sysadmin_ie.theme.views.layouts.default')
 
 @section('content')
 <div id="app">

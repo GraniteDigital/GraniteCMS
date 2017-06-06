@@ -1,11 +1,11 @@
 <?php
 
-namespace Sites\granitecms_dev\theme\controllers;
+namespace Sites\gdsitesearch_sysadmin_ie\theme\controllers;
 
 use App\Http\Controllers\Controller;
-use Sites\granitecms_dev\theme\Query;
-use Sites\granitecms_dev\theme\Site;
-use Sites\granitecms_dev\theme\Tag;
+use Sites\gdsitesearch_sysadmin_ie\theme\Query;
+use Sites\gdsitesearch_sysadmin_ie\theme\Site;
+use Sites\gdsitesearch_sysadmin_ie\theme\Tag;
 use Wamania\Snowball\English;
 
 class TagController extends Controller
@@ -136,7 +136,7 @@ class TagController extends Controller
             // -----------------------------------------------------------
 
             $site = Site::find($siteID);
-            $value = $site->tags_full;
+            $value = ($site != null) ? $site->tags_full : "";
 
             if ($field['type'] == 'custom_taginput') {
                 return view('components.text')->with(['field' => $field, 'value' => $value]);

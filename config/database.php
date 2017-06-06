@@ -10,9 +10,9 @@ if( isset($_SERVER['RDS_HOSTNAME']) ){
     }
 } else{
     define('RDS_HOSTNAME', env('DB_HOST', 'localhost') );
-    define('RDS_USERNAME', env('DB_DATABASE', 'forge') );
-    define('RDS_PASSWORD', env('DB_USERNAME', 'forge') );
-    define('RDS_DB_NAME', env('DB_PASSWORD', '') );
+    define('RDS_USERNAME', env('DB_USERNAME', 'forge') );
+    define('RDS_PASSWORD', env('DB_PASSWORD', 'forge') );
+    define('RDS_DB_NAME', env('DB_DATABASE', '') );
 }
 
 return [
